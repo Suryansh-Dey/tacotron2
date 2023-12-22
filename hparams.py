@@ -1,11 +1,13 @@
 import tensorflow as tf
 from text import symbols
-
+class HParams:
+    def __init__(self, **kwargs):
+        self.__dict__.update(kwargs)
 
 def create_hparams(hparams_string=None, verbose=False):
     """Create model hyperparameters. Parse nondefault from given string."""
 
-    hparams = tf.contrib.training.HParams(
+    default_hparams = dict(
         ################################
         # Experiment Parameters        #
         ################################
@@ -84,6 +86,7 @@ def create_hparams(hparams_string=None, verbose=False):
         batch_size=64,
         mask_padding=True  # set model's padded outputs to padded values
     )
+    hparams = HParams(**default_hparams)
 
     if hparams_string:
         tf.logging.info('Parsing command line hparams: %s', hparams_string)
